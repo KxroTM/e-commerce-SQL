@@ -132,10 +132,10 @@ func CreateTables() {
         invoice_id INTEGER PRIMARY KEY AUTOINCREMENT,
         commande_id INTEGER NOT NULL,             
         client_id INTEGER NOT NULL,            
-        date TEXT DEFAULT CURRENT_TIMESTAMP, 
+        date_facture TEXT DEFAULT CURRENT_TIMESTAMP, 
         total_amount REAL NOT NULL,            
         tax_amount REAL DEFAULT 0.00,          
-        status TEXT,         
+        status_paiement TEXT,         
         paiement_id INTEGER,                    
         FOREIGN KEY (commande_id) REFERENCES command(commande_id),
         FOREIGN KEY (client_id) REFERENCES user(client_id),
@@ -301,7 +301,7 @@ func LoadData() {
     (1, 6, 1),
     (2, 1, 1);
 
-    INSERT INTO invoices (invoice_id, commande_id, client_id, date, total_amount, tax_amount, status, paiement_id) VALUES
+    INSERT INTO invoices (invoice_id, commande_id, client_id, date_facture, total_amount, tax_amount, status_paiement, paiement_id) VALUES
     (1, 1, 1, ?, 310.0, 0.0, 'Pending', 1),
     (2, 2, 2, ?, 50.0, 0.0, 'Paid', 1),
     (3, 3, 3, ?, 0.0, 0.0, 'Pending', 1),
