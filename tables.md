@@ -125,6 +125,24 @@ CREATE TABLE IF NOT EXISTS commande_produit (
 );
 ```
 
+- Table des factures
+
+```sql
+   CREATE TABLE IF NOT EXISTS invoices (
+        invoice_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        commande_id INTEGER NOT NULL,             
+        client_id INTEGER NOT NULL,            
+        date TEXT DEFAULT CURRENT_TIMESTAMP, 
+        total_amount REAL NOT NULL,            
+        tax_amount REAL DEFAULT 0.00,          
+        status TEXT,         
+        paiement_id INTEGER,                    
+        FOREIGN KEY (commande_id) REFERENCES command(commande_id),
+        FOREIGN KEY (client_id) REFERENCES user(client_id),
+        FOREIGN KEY (paiement_id) REFERENCES payment(paiement_id)
+    );
+```
+
 - Table des états d'un produit
 
 ```sql

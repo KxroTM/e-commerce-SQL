@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"encoding/hex"
 	"log"
+	"time"
 
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -19,7 +20,7 @@ func main() {
 
 func init() {
 	var err error
-	Db, err = sql.Open("sqlite3", "./Just_Db_E-commerce/e-commerce.sql")
+	Db, err = sql.Open("sqlite3", "./e-commerce.sql")
 	if err != nil {
 		log.Fatal("Erreur lors de l'ouverture de la base de données:", err)
 		return
@@ -127,6 +128,20 @@ func CreateTables() {
         FOREIGN KEY (produit_id) REFERENCES product(produit_id)
     );
 
+    CREATE TABLE IF NOT EXISTS invoices (
+        invoice_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        commande_id INTEGER NOT NULL,             
+        client_id INTEGER NOT NULL,            
+        date TEXT DEFAULT CURRENT_TIMESTAMP, 
+        total_amount REAL NOT NULL,            
+        tax_amount REAL DEFAULT 0.00,          
+        status TEXT,         
+        paiement_id INTEGER,                    
+        FOREIGN KEY (commande_id) REFERENCES command(commande_id),
+        FOREIGN KEY (client_id) REFERENCES user(client_id),
+        FOREIGN KEY (paiement_id) REFERENCES payment(paiement_id)
+    );
+
     CREATE TABLE IF NOT EXISTS etat_produit (
         etat_id INT AUTO_INCREMENT PRIMARY KEY,
         description VARCHAR(255) NOT NULL
@@ -220,7 +235,7 @@ func AUTO_INCREMENT() int {
 
 func LoadData() {
 	password := HashPassword("password")
-	date := "2021-06-01 00:00:00"
+	date := time.Now().Format("2006-01-02 15:04:05")
 
 	query := `
     INSERT INTO user (client_id, nom, prenom, email, telephone, hashed_password, role_id, photo_id) VALUES 
@@ -271,8 +286,8 @@ func LoadData() {
     (5, 5, 5);
 
     INSERT INTO command (commande_id, client_id, montant, status_id, date_livraison, paiement_id) VALUES
-    (1, 1, 0.00, 1, ?, 1),
-    (2, 2, 0.00, 1, ?, 1),
+    (1, 1, 310.0, 1, ?, 1),
+    (2, 2, 50.0, 1, ?, 1),
     (3, 3, 0.00, 1, ?, 1),
     (4, 4, 0.00, 1, ?, 1),
     (5, 5, 0.00, 1, ?, 1);
@@ -285,6 +300,13 @@ func LoadData() {
     (1, 5, 1),
     (1, 6, 1),
     (2, 1, 1);
+
+    INSERT INTO invoices (invoice_id, commande_id, client_id, date, total_amount, tax_amount, status, paiement_id) VALUES
+    (1, 1, 1, ?, 310.0, 0.0, 'Pending', 1),
+    (2, 2, 2, ?, 50.0, 0.0, 'Paid', 1),
+    (3, 3, 3, ?, 0.0, 0.0, 'Pending', 1),
+    (4, 4, 4, ?, 0.0, 0.0, 'Pending', 1);
+
 
     INSERT INTO rate (evaluation_id, produit_id, client_id, note, commentaire) VALUES
     (1, 1, 1, 5, 'Très bon produit'),
@@ -328,7 +350,7 @@ func LoadData() {
 
 	_, err := Db.Exec(query,
 		password, password, password, password, password, password, password,
-		date, date, date, date, date, date, date, date, date, date, date, date,
+		date, date, date, date, date, date, date, date, date, date, date, date, date, date, date, date,
 	)
 	if err != nil {
 		log.Fatalf("Erreur lors de l'insertion des données: %v", err)
