@@ -98,7 +98,7 @@ func CreateTables() {
 		FOREIGN KEY (status_id) REFERENCES status_panier(status_id)
     );
 
-    CREATE TABLE IF NOT EXISTS panier_produit (
+    CREATE TABLE IF NOT EXISTS content_product (
         panier_id INT,
         produit_id INT,
         quantite INT,
@@ -109,23 +109,16 @@ func CreateTables() {
 
     CREATE TABLE IF NOT EXISTS command (
         commande_id INT AUTO_INCREMENT PRIMARY KEY,
+        panier_id INT,
         client_id INT,
         montant DECIMAL(10, 2),
         status_id INT,
         date_livraison DATE NOT NULL,
         paiement_id INT,
+        FOREIGN KEY (panier_id) REFERENCES cart(panier_id),
         FOREIGN KEY (client_id) REFERENCES user(client_id),
         FOREIGN KEY (status_id) REFERENCES commade_status(status_id),
         FOREIGN KEY (paiement_id) REFERENCES payment(paiement_id)
-    );
-
-    CREATE TABLE IF NOT EXISTS commande_produit (
-        commande_id INT,
-        produit_id INT,
-        quantite INT NOT NULL,
-        PRIMARY KEY (commande_id, produit_id),
-        FOREIGN KEY (commande_id) REFERENCES command(commande_id),
-        FOREIGN KEY (produit_id) REFERENCES product(produit_id)
     );
 
     CREATE TABLE IF NOT EXISTS invoices (
@@ -273,7 +266,7 @@ func LoadData() {
     (4, 4, 0.00, ?, 1),
     (5, 5, 0.00, ?, 1);
 
-    INSERT INTO panier_produit (panier_id, produit_id, quantite) VALUES
+    INSERT INTO content_product (panier_id, produit_id, quantite) VALUES
     (1, 1, 1),
     (1, 2, 1),
     (1, 3, 1),
@@ -285,21 +278,12 @@ func LoadData() {
     (4, 4, 4),
     (5, 5, 5);
 
-    INSERT INTO command (commande_id, client_id, montant, status_id, date_livraison, paiement_id) VALUES
-    (1, 1, 310.0, 1, ?, 1),
-    (2, 2, 50.0, 1, ?, 1),
-    (3, 3, 0.00, 1, ?, 1),
-    (4, 4, 0.00, 1, ?, 1),
-    (5, 5, 0.00, 1, ?, 1);
+    INSERT INTO command (commande_id, panier_id, client_id, montant, status_id, date_livraison, paiement_id) VALUES
+    (1, 1, 1, 310.0, 1, ?, 1),
+    (2, 2, 2, 50.0, 3, ?, 1),
+    (3, 3, 3, 0.0, 1, ?, 1),
+    (4, 4, 4, 0.0, 1, ?, 1);
 
-    INSERT INTO commande_produit (commande_id, produit_id, quantite) VALUES
-    (1, 1, 1),
-    (1, 2, 1),
-    (1, 3, 1),
-    (1, 4, 1),
-    (1, 5, 1),
-    (1, 6, 1),
-    (2, 1, 1);
 
     INSERT INTO invoices (invoice_id, commande_id, client_id, date_facture, total_amount, tax_amount, status_paiement, paiement_id) VALUES
     (1, 1, 1, ?, 310.0, 0.0, 'Pending', 1),
