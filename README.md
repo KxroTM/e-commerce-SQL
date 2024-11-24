@@ -1,6 +1,10 @@
-# Création de mes tables
+# Warning !
 
-- Table des utilisateurs
+The script must be executed on an empty database.
+
+# Creation of My Tables
+
+- Users Table
 
 ```sql
 CREATE TABLE IF NOT EXISTS user (
@@ -17,7 +21,7 @@ CREATE TABLE IF NOT EXISTS user (
 );
 ```
 
-- Table des vendeurs
+- Sellers Table
 
 ```sql
 CREATE TABLE IF NOT EXISTS vendeur (
@@ -34,7 +38,7 @@ CREATE TABLE IF NOT EXISTS vendeur (
 );
 ```
 
-- Table des adresses
+- Addresses Table
 
 ```sql
 CREATE TABLE IF NOT EXISTS address (
@@ -51,7 +55,7 @@ CREATE TABLE IF NOT EXISTS address (
 );
 ```
 
-- Table des produits
+- Products Table
 
 ```sql
 CREATE TABLE IF NOT EXISTS product (
@@ -69,7 +73,7 @@ CREATE TABLE IF NOT EXISTS product (
 );
 ```
 
-- Table du panier
+- Cart Table
 
 ```sql
 CREATE TABLE IF NOT EXISTS cart (
@@ -83,7 +87,7 @@ CREATE TABLE IF NOT EXISTS cart (
 );
 ```
 
-- Table de liaison entre panier et produits
+- Link Table Between Cart and Products
 
 ```sql
 CREATE TABLE IF NOT EXISTS content_product (
@@ -96,7 +100,7 @@ CREATE TABLE IF NOT EXISTS content_product (
 );
 ```
 
-- Table des commandes
+- Orders Table
 
 ```sql
 CREATE TABLE IF NOT EXISTS command (
@@ -112,7 +116,7 @@ CREATE TABLE IF NOT EXISTS command (
 );
 ```
 
-- Table des factures
+- Invoices Table
 
 ```sql
 CREATE TABLE IF NOT EXISTS invoices (
@@ -130,7 +134,7 @@ CREATE TABLE IF NOT EXISTS invoices (
 );
 ```
 
-- Table des états d'un produit
+- Product States Table
 
 ```sql
 CREATE TABLE IF NOT EXISTS etat_produit (
@@ -139,7 +143,7 @@ CREATE TABLE IF NOT EXISTS etat_produit (
 );
 ```
 
-- Table des statuts d'un panier
+- Cart Status Table
 
 ```sql
 CREATE TABLE IF NOT EXISTS status_panier (
@@ -148,7 +152,7 @@ CREATE TABLE IF NOT EXISTS status_panier (
 );
 ```
 
-- Table des status d'une commande
+- Order Status Table
 
 ```sql
 CREATE TABLE IF NOT EXISTS commande_status (
@@ -157,7 +161,7 @@ CREATE TABLE IF NOT EXISTS commande_status (
 );
 ```
 
-- Table des rôles
+- Roles Table
 
 ```sql
 CREATE TABLE IF NOT EXISTS role (
@@ -166,7 +170,7 @@ CREATE TABLE IF NOT EXISTS role (
 );
 ```
 
-- Table des paiements
+- Payments Table
 
 ```sql
 CREATE TABLE IF NOT EXISTS payment (
@@ -175,7 +179,7 @@ CREATE TABLE IF NOT EXISTS payment (
 );
 ```
 
-- Table des photos
+- Photos Table
 
 ```sql
 CREATE TABLE IF NOT EXISTS photo (
@@ -184,7 +188,7 @@ CREATE TABLE IF NOT EXISTS photo (
 );
 ```
 
-- Table des évaluations (notes des produits)
+- Ratings Table (Product Reviews)
 
 ```sql
 CREATE TABLE IF NOT EXISTS rate (
