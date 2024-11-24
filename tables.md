@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS cart (
 - Table de liaison entre panier et produits
 
 ```sql
-CREATE TABLE IF NOT EXISTS panier_produit (
+CREATE TABLE IF NOT EXISTS content_product (
     panier_id INT,
     produit_id INT,
     quantite INT,
@@ -112,31 +112,18 @@ CREATE TABLE IF NOT EXISTS command (
 );
 ```
 
-- Table de liaison entre commandes et produits
-
-```sql
-CREATE TABLE IF NOT EXISTS commande_produit (
-    commande_id INT,
-    produit_id INT,
-    quantite INT NOT NULL,
-    PRIMARY KEY (commande_id, produit_id),
-    FOREIGN KEY (commande_id) REFERENCES command(commande_id),
-    FOREIGN KEY (produit_id) REFERENCES product(produit_id)
-);
-```
-
 - Table des factures
 
 ```sql
 CREATE TABLE IF NOT EXISTS invoices (
     invoice_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    commande_id INTEGER NOT NULL,             
-    client_id INTEGER NOT NULL,            
-    date_facture TEXT DEFAULT CURRENT_TIMESTAMP, 
-    total_amount REAL NOT NULL,            
-    tax_amount REAL DEFAULT 0.00,          
-    status_paiment TEXT,         
-    paiement_id INTEGER,                    
+    commande_id INTEGER NOT NULL,
+    client_id INTEGER NOT NULL,
+    date_facture TEXT DEFAULT CURRENT_TIMESTAMP,
+    total_amount REAL NOT NULL,
+    tax_amount REAL DEFAULT 0.00,
+    status_paiment TEXT,
+    paiement_id INTEGER,
     FOREIGN KEY (commande_id) REFERENCES command(commande_id),
     FOREIGN KEY (client_id) REFERENCES user(client_id),
     FOREIGN KEY (paiement_id) REFERENCES payment(paiement_id)
